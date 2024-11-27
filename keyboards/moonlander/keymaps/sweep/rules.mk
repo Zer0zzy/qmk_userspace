@@ -1,0 +1,26 @@
+# Set any rules.mk overrides for your specific keymap here.
+# See rules at https://docs.qmk.fm/#/config_options?id=the-rulesmk-file
+AUDIO_ENABLE = no
+AUTO_SHIFT_ENABLE = yes
+CONSOLE_ENABLE = yes
+COMMAND_ENABLE = no
+ORYX_ENABLE = yes
+RGB_MATRIX_CUSTOM_KB = yes
+TAP_DANCE_ENABLE = yes
+SPACE_CADET_ENABLE = no
+COMBO_ENABLE = yes
+LEADER_ENABLE = yes
+LAYER_LOCK_ENABLE = ye
+TRI_LAYER_ENABLE = yes
+
+
+
+
+
+
+
+
+
+
+
+  
