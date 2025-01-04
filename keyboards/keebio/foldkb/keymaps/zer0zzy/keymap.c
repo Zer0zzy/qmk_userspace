@@ -403,6 +403,9 @@ bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
 }
 
 void autoshift_press_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
+    if (!shifted && (get_mods() & MOD_BIT(KC_RSFT))) {
+        shifted = true;
+    }
     switch(keycode) {
         case KC_COMMA:
             register_code16((!shifted) ? KC_COMMA : KC_QUOTE);
@@ -418,7 +421,7 @@ void autoshift_press_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
             break;
         default:
             if (shifted) {
-                add_weak_mods(MOD_BIT(KC_LSFT));
+                add_weak_mods(MOD_MASK_SHIFT);
             }
             // & 0xFF gets the Tap key for Tap Holds, required when using Retro Shift
             // register_code16((IS_RETRO(keycode)) ? keycode & 0xFF : keycode);
@@ -427,12 +430,15 @@ void autoshift_press_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
 }
 
 void autoshift_release_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
+    if (!shifted && (get_mods() & MOD_BIT(KC_RSFT))) {
+        shifted = true;
+    }
     switch(keycode) {
         case KC_COMMA:
-            unregister_code16((!shifted) ? KC_COMMA : KC_DOUBLE_QUOTE);
+            unregister_code16((!shifted) ? KC_COMMA : KC_QUOTE);
             break;
         case KC_DOT:
-            unregister_code16((!shifted) ? KC_DOT : KC_QUOTE);
+            unregister_code16((!shifted) ? KC_DOT : KC_DOUBLE_QUOTE);
             break;
         case KC_LPRN:
             unregister_code16((!shifted) ? KC_LPRN : KC_LT);

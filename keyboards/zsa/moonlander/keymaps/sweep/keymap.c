@@ -16,7 +16,7 @@ bool caps_lock_active = false;
 enum custom_keycodes {
   RGB_SLD = ML_SAFE_RANGE,
   MX_SIGNATURE,
-  MX_OPEN_IN_NEW_TAB
+// MX_OPEN_IN_NEW_TAB,
   MX_DPI_CHANGE,
   MX_MS_SCROLL,
   MX_PLOOPY_BOOT,
@@ -44,7 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
     KC_Q,                   KC_W,                   KC_E,                   KC_R,                   KC_T,                   KC_TRANSPARENT,         KC_TRANSPARENT,                 MX_DPI_CHANGE,          KC_TRANSPARENT,         KC_Y,                   KC_U,                   KC_I,                   KC_O,                   KC_P,
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
-    LALT_T(KC_A),           LGUI_T(KC_S),           LCTL_T(KC_D),           LSFT_T(KC_F),           KC_G,                   KC_TRANSPARENT,         KC_TRANSPARENT,                 KC_MS_BTN1,             TD(MS_RIGHT_MIDDLE),    KC_H,                   RSFT_T(KC_J),           RCTL_T(KC_K),           RGUI_T(KC_L),           TD(SCLN_RALT),
+    LALT_T(KC_A),           LGUI_T(KC_S),           LCTL_T(KC_D),           LSFT_T(KC_F),           KC_G,                   KC_TRANSPARENT,         KC_TRANSPARENT,                 KC_MS_BTN1,             TD(MS_RIGHT_MIDDLE),    KC_H,                   LSFT_T(KC_J),           RCTL_T(KC_K),           RGUI_T(KC_L),           TD(SCLN_RALT),
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|                                                       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
     KC_Z,                   KC_X,                   KC_C,                   KC_V,                   KC_B,                   KC_TRANSPARENT,                                                                 LT(0, KC_CAPS),         KC_N,                   KC_M,                   KC_COMMA,               KC_DOT,                 KC_SLASH,
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-------RED KEY---------|                                                       |---RED KEY-------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
@@ -525,10 +525,10 @@ void autoshift_press_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
 void autoshift_release_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
     switch(keycode) {
         case KC_COMMA:
-            unregister_code16((!shifted) ? KC_COMMA : KC_DOUBLE_QUOTE);
+            unregister_code16((!shifted) ? KC_COMMA : KC_QUOTE);
             break;
         case KC_DOT:
-            unregister_code16((!shifted) ? KC_DOT : KC_QUOTE);
+            unregister_code16((!shifted) ? KC_DOT : KC_DOUBLE_QUOTE);
             break;
         case KC_LPRN:
             unregister_code16((!shifted) ? KC_LPRN : KC_LT);
