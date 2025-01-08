@@ -16,7 +16,7 @@ bool caps_lock_active = false;
 enum custom_keycodes {
   RGB_SLD = ML_SAFE_RANGE,
   MX_SIGNATURE,
-// MX_OPEN_IN_NEW_TAB,
+  MX_URL_REGEX,
   MX_DPI_CHANGE,
   MX_MS_SCROLL,
   MX_PLOOPY_BOOT,
@@ -58,9 +58,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
     KC_NO,                  KC_NO,                  KC_NO,                  KC_NO,                  KC_NO,                  KC_TRANSPARENT,         KC_TRANSPARENT,                 KC_NO,                  KC_TRANSPARENT,         KC_NO,                  KC_7,                   KC_8,                   KC_9,                   KC_EQUAL,
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
-    KC_NO,                  KC_NO,                  KC_NO,                  KC_NO,                  KC_NO,                  KC_TRANSPARENT,         KC_TRANSPARENT,                 KC_NO,                  KC_NO,                  KC_BSLS,                KC_4,                   KC_5,                   KC_6,                   KC_SCLN,
+    KC_NO,                  KC_NO,                  KC_NO,                  KC_NO,                  MX_URL_REGEX,           KC_TRANSPARENT,         KC_TRANSPARENT,                 KC_NO,                  KC_NO,                  KC_BSLS,                KC_4,                   KC_5,                   KC_6,                   KC_SCLN,
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|                                                       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
-    KC_NO,                  KC_NO,                  KC_NO,                  KC_NO,                  KC_NO,                  KC_TRANSPARENT,                                                                 KC_NO,                  KC_NO,                  KC_1,                   KC_2,                   KC_3,                   KC_NO,
+    KC_NO,                  KC_ESC,                 KC_NO,                  KC_NO,                  KC_NO,                  KC_TRANSPARENT,                                                                 KC_NO,                  KC_NO,                  KC_1,                   KC_2,                   KC_3,                   KC_NO,
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-------RED KEY---------|                                                       |---RED KEY-------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
     KC_TRANSPARENT,         KC_TRANSPARENT,         KC_TRANSPARENT,         KC_TRANSPARENT,         KC_TRANSPARENT,         KC_NO,                                                                          KC_TRANSPARENT,         KC_TRANSPARENT,         KC_0,                   KC_TRANSPARENT,         KC_TRANSPARENT,         KC_TRANSPARENT,
 //|--THUMB 1--------------|---THUMB 2-------------|---THUMB 3-------------|                                                                                                                                                                                                       |---THUMB 3-------------|---------THUMB 2-------|-----THUMB 1-----------|
@@ -234,6 +234,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         SEND_STRING("30487987");
     }
     break;
+    case MX_URL_REGEX:
+    if (record->event.pressed) {
+        SEND_STRING("(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\r");
+    }
+    break;
     case MX_DPI_CHANGE:
     if (record->event.pressed) {
       SEND_STRING(SS_TAP(X_SCRL) SS_TAP(X_SCRL));
@@ -333,14 +338,17 @@ void leader_end_user(void) {
     } else if (leader_sequence_two_keys(KC_P, KC_E)) {
         // Leader, (p)rint, (e)mail => email
         SEND_STRING("andre.dessert@premworx.com");
+    } else if (leader_sequence_three_keys(KC_U, KC_R, KC_L)) {
+        // Leader, u, r, l => url
+        SEND_STRING("(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\r")
     } else if (leader_sequence_three_keys(KC_S, KC_C, KC_E)) {
-        // Leader, s, c, e => -[ ]  (Symbols => Checkbox => Empty)
+        // Leader, (s)ymbols, (c)heckbox, (e)mpty => -[ ]
         SEND_STRING(SS_TAP(X_MINUS) SS_DELAY(10) SS_TAP(X_SPACE) SS_DELAY(10) SS_TAP(X_LBRC) SS_DELAY(10) SS_TAP(X_SPACE) SS_DELAY(10) SS_TAP(X_RBRC));
     } else if (leader_sequence_three_keys(KC_S, KC_C, KC_D)) {
-        // Leader, s, c, d => -[ ]  (Symbols => Checkbox => Done)
+        // Leader, (s)ymbols, (c)heckbox, (d)one => -[ ]
         SEND_STRING(SS_TAP(X_MINUS) SS_DELAY(10) SS_TAP(X_SPACE) SS_DELAY(10) SS_TAP(X_LBRC) SS_DELAY(10) SS_TAP(X_X) SS_DELAY(10) SS_TAP(X_RBRC));
     } else if (leader_sequence_three_keys(KC_S, KC_C, KC_C)) {
-        // Leader, s, c, c => -[ ]  (Symbols => Checkbox => Checked)
+        // Leader, (s)ymbols, (c)heckbox, (c)hecked => -[ ]
         SEND_STRING(SS_TAP(X_MINUS) SS_DELAY(10) SS_TAP(X_SPACE) SS_DELAY(10) SS_TAP(X_LBRC) SS_DELAY(10) SS_TAP(X_V) SS_DELAY(10) SS_TAP(X_RBRC));
     }
 
