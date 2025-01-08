@@ -231,12 +231,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case MX_SIGNATURE:
     if (record->event.pressed) {
-        SEND_STRING("30487987");
+        SEND_STRING("3957845");
     }
     break;
     case MX_URL_REGEX:
     if (record->event.pressed) {
-        SEND_STRING("(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\r");
+        SEND_STRING("(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)\\r");
     }
     break;
     case MX_DPI_CHANGE:
@@ -340,7 +340,7 @@ void leader_end_user(void) {
         SEND_STRING("andre.dessert@premworx.com");
     } else if (leader_sequence_three_keys(KC_U, KC_R, KC_L)) {
         // Leader, u, r, l => url
-        SEND_STRING("(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&\/=]*)\r")
+        SEND_STRING("(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)\\r");
     } else if (leader_sequence_three_keys(KC_S, KC_C, KC_E)) {
         // Leader, (s)ymbols, (c)heckbox, (e)mpty => -[ ]
         SEND_STRING(SS_TAP(X_MINUS) SS_DELAY(10) SS_TAP(X_SPACE) SS_DELAY(10) SS_TAP(X_LBRC) SS_DELAY(10) SS_TAP(X_SPACE) SS_DELAY(10) SS_TAP(X_RBRC));
