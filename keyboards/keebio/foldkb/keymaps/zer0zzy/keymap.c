@@ -34,9 +34,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define xxxxxx KC_NO
 
 enum custom_keycodes {
-  CLR_MODS,
   TOG_GAME = SAFE_RANGE,
-  TOG_NORMAL = SAFE_RANGE + 1
+  TOG_NORMAL = SAFE_RANGE + 1,
+  CLR_MODS = SAFE_RANGE + 2,
+  MX_URL_REGEX
+
 };
 
 typedef struct {
@@ -58,9 +60,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
         KC_MUTE,            KC_ESC,             _______,            _______,            _______,            _______,            _______,            _______,                                _______,            _______,            _______,            _______,            _______,            _______,            xxxxxx,             _______,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
-        KC_HOME,                                KC_TAB,             TD(DANCE_2),        KC_W,               KC_E,               KC_R,               KC_T,                                   KC_Y,               KC_U,               KC_I,               KC_O,               KC_P,               _______,            _______,            _______,
+        KC_HOME,                                _______,            TD(DANCE_2),        KC_W,               KC_E,               KC_R,               KC_T,                                   KC_Y,               KC_U,               KC_I,               KC_O,               KC_P,               _______,            _______,            _______,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
-        KC_END,                                 _______,            LALT_T(KC_A),       LGUI_T(KC_S),       LCTL_T(KC_D),       LSFT_T(KC_F),       KC_G,                                   KC_H,               RSFT_T(KC_J),       RCTL_T(KC_K),       RGUI_T(KC_L),       TD(SCLN_RALT),      _______,            _______,
+        KC_END,                                 _______,            LALT_T(KC_A),       LGUI_T(KC_S),       LCTL_T(KC_D),       LSFT_T(KC_F),       KC_G,                                   KC_H,               LSFT_T(KC_J),       RCTL_T(KC_K),       RGUI_T(KC_L),       TD(SCLN_RALT),      _______,            _______,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
         KC_PGUP,                                _______,            KC_Z,               KC_X,               KC_C,               KC_V,               KC_B,                                   KC_N,               KC_M,               KC_COMMA,           KC_DOT,             KC_SLSH,            _______,            xxxxxx,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
@@ -70,11 +72,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
         _______,            KC_ESC,             _______,            _______,            _______,            _______,            _______,            _______,                                _______,            _______,            _______,            _______,            _______,            _______,            xxxxxx,             _______,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
-        _______,                                _______,            KC_ESC,             KC_GRAVE,           KC_LPRN,            KC_RPRN,            KC_NO,                                  _______,            KC_7,               KC_8,               KC_9,               KC_EQUAL,           _______,            _______,            _______,
+        _______,                                _______,            KC_NO,              KC_NO,              KC_NO,              KC_NO,              KC_NO,                                  _______,            KC_7,               KC_8,               KC_9,               KC_EQUAL,           _______,            _______,            _______,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
-        _______,                                _______,            KC_QUOTE,           KC_MINUS,           KC_LBRC,            KC_RBRC,            KC_NO,                                  KC_BSLS,            KC_4,               KC_5,               KC_6,               KC_SCLN,            _______,            _______,
+        _______,                                _______,            KC_NO,              KC_NO,              KC_NO,              MX_URL_REGEX,       KC_NO,                                  KC_BSLS,            KC_4,               KC_5,               KC_6,               KC_SCLN,            _______,            _______,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
-        _______,                                _______,            KC_NO,              KC_NO,              KC_NO,              KC_QUOTE,           KC_NO,                                  _______,            KC_1,               KC_2,               KC_3,               KC_DOT,             _______,            xxxxxx,
+        _______,                                _______,            KC_NO,              KC_ESC,             KC_NO,              KC_NO,              KC_NO,                                  _______,            KC_1,               KC_2,               KC_3,               KC_DOT,             _______,            xxxxxx,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
         _______,                                _______,            _______,            _______,            _______,            xxxxxx,             _______,                                _______,            KC_0,               _______,            _______,            _______,            _______
     ),
@@ -82,13 +84,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
         KC_SCRL,            KC_ESC,             _______,            _______,            _______,            _______,            _______,            _______,                                _______,            _______,            _______,            _______,            _______,            _______,            xxxxxx,             _______,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
-        _______,                                _______,            KC_ESC,             KC_GRAVE,           KC_LPRN,            KC_RPRN,            KC_NO,                                  KC_NO,              KC_NO,              KC_UP,              KC_DEL,             KC_INS,             _______,             _______,            _______,
+        _______,                                _______,            KC_ESC,             KC_GRAVE,           KC_LPRN,            KC_RPRN,            KC_NO,                                  KC_NO,              KC_PAGE_UP,         KC_UP,              KC_DEL,             KC_INS,             _______,             _______,            _______,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
         _______,                                _______,            KC_QUOTE,           KC_MINUS,           KC_LBRC,            KC_RBRC,            KC_NO,                                  KC_HOME,            KC_LEFT,            KC_DOWN,            KC_RIGHT,           KC_END,             _______,            _______,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
-        _______,                                _______,            KC_NO,              KC_NO,              KC_NO,              KC_QUOTE,           KC_NO,                                  _______,            KC_1,               KC_2,               KC_3,               KC_DOT,             _______,            xxxxxx,
+        _______,                                _______,            KC_NO,              KC_NO,              KC_NO,              KC_NO,              KC_NO,                                  _______,            KC_PAGE_DOWN,       KC_NO,              KC_ESC,             KC_DOT,             _______,            xxxxxx,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
-        _______,                                _______,            _______,            _______,            _______,            xxxxxx,             _______,                                _______,            KC_0,               _______,            _______,            _______,            _______
+        _______,                                _______,            _______,            _______,            _______,            xxxxxx,             _______,                                _______,            _______,            _______,            _______,            _______,            _______
     ),
     [_FN] = LAYOUT(
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
@@ -152,16 +154,14 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][NUM_DIRECTIONS] = {
 };
 #endif
 
-const uint16_t PROGMEM combo0[] = { MT(MOD_LSFT, KC_F), MT(MOD_RSFT, KC_J), COMBO_END};
-const uint16_t PROGMEM combo1[] = { KC_W, TD(DANCE_2), COMBO_END};
-const uint16_t PROGMEM combo2[] = { LT(_NAV,KC_SPACE), MEH_T(KC_ENTER), COMBO_END};
-const uint16_t PROGMEM combo3[] = { LCTL_T(KC_D), RCTL_T(KC_K), COMBO_END};
+const uint16_t PROGMEM combo0[] = { MT(MOD_LSFT, KC_F), MT(MOD_LSFT, KC_J), COMBO_END};
+const uint16_t PROGMEM combo1[] = { LT(_NAV,KC_SPACE), MEH_T(KC_ENTER), COMBO_END};
+const uint16_t PROGMEM combo2[] = { LCTL_T(KC_D), RCTL_T(KC_K), COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
     COMBO(combo0, KC_CAPS),
-    COMBO(combo1, KC_ESCAPE),
-    COMBO(combo2, TT(_MEDIA)),
-    COMBO(combo3, QK_LEADER),
+    COMBO(combo1, TT(_MEDIA)),
+    COMBO(combo2, QK_LEADER),
 };
 
 
@@ -169,9 +169,11 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LSFT_T(KC_F):
             return TAPPING_TERM -50;
-        case RSFT_T(KC_J):
+        case LSFT_T(KC_J):
             return TAPPING_TERM -50;
         case LT(_NAV,KC_SPACE):
+            return TAPPING_TERM -50;
+        case  LT(_NUM,KC_TAB):
             return TAPPING_TERM -50;
         default:
             return TAPPING_TERM;
@@ -191,6 +193,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         clear_mods();
     }
     break;
+    case MX_URL_REGEX:
+    if (record->event.pressed) {
+        SEND_STRING("(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)\\r");
+    }
     case TOG_GAME:
     if (record->event.pressed) {
         default_layer_set((layer_state_t)1 << _BASE2);
@@ -251,38 +257,37 @@ void leader_start_user(void) {
 }
 
 void leader_end_user(void) {
-    if (leader_sequence_one_key(KC_F)) {
-        // Leader, f => Types the below string
-        SEND_STRING("QMK is awesome.");
-    } else if (leader_sequence_two_keys(KC_D, KC_D)) {
+    if (leader_sequence_two_keys(KC_PERCENT, KC_Y)) {
         // Leader, d, d => CTL+A, CTL+C
         SEND_STRING(SS_LCTL("a") SS_LCTL("c"));
-    } else if (leader_sequence_two_keys(KC_W, KC_R)) {
-        // Leader, w, ; => Display Right
+    } else if (leader_sequence_two_keys(KC_V, KC_R)) {
+        // Leader, (v)irtual, (r)ight => Display Right
         tap_code16(LCG(KC_RIGHT));
-    } else if (leader_sequence_two_keys(KC_W, KC_L)) {
-        // Leader, w, j => Display Left
+    } else if (leader_sequence_two_keys(KC_V, KC_L)) {
+        // Leader, (v)irtual, (left) => Display Left
         tap_code16(LCG(KC_LEFT));
     } else if (leader_sequence_two_keys(KC_W, KC_S)) {
-        // Leader, a, s => GUI+S
+        // Leader, (w)indows, (s)earch => GUI+S
         tap_code16(LGUI(KC_S));
     } else if (leader_sequence_two_keys(KC_W, KC_O)) {
-        // Leader, w, o => CTL+Space
+        // Leader, (w)indows, (o)mnibar => CTL+Space
         tap_code16(LCG(LALT(KC_SPACE)));
     } else if (leader_sequence_two_keys(KC_P, KC_E)) {
         // Leader, (p)rint, (e)mail => email
-        SEND_STRING("andre@managednerds.tech");
+        SEND_STRING("andre.dessert@premworx.com");
+    } else if (leader_sequence_three_keys(KC_U, KC_R, KC_L)) {
+        // Leader, u, r, l => url
+        SEND_STRING("(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)\\r");
     } else if (leader_sequence_three_keys(KC_S, KC_C, KC_E)) {
-        // Leader, s, c, e => -[ ]  (Symbols => Checkbox => Empty)
+        // Leader, (s)ymbols, (c)heckbox, (e)mpty => -[ ]
         SEND_STRING(SS_TAP(X_MINUS) SS_DELAY(10) SS_TAP(X_SPACE) SS_DELAY(10) SS_TAP(X_LBRC) SS_DELAY(10) SS_TAP(X_SPACE) SS_DELAY(10) SS_TAP(X_RBRC));
     } else if (leader_sequence_three_keys(KC_S, KC_C, KC_D)) {
-        // Leader, s, c, d => -[ ]  (Symbols => Checkbox => Done)
+        // Leader, (s)ymbols, (c)heckbox, (d)one => -[ ]
         SEND_STRING(SS_TAP(X_MINUS) SS_DELAY(10) SS_TAP(X_SPACE) SS_DELAY(10) SS_TAP(X_LBRC) SS_DELAY(10) SS_TAP(X_X) SS_DELAY(10) SS_TAP(X_RBRC));
     } else if (leader_sequence_three_keys(KC_S, KC_C, KC_C)) {
-        // Leader, s, c, c => -[ ]  (Symbols => Checkbox => Checked)
+        // Leader, (s)ymbols, (c)heckbox, (c)hecked => -[ ]
         SEND_STRING(SS_TAP(X_MINUS) SS_DELAY(10) SS_TAP(X_SPACE) SS_DELAY(10) SS_TAP(X_LBRC) SS_DELAY(10) SS_TAP(X_V) SS_DELAY(10) SS_TAP(X_RBRC));
     }
-
 }
 
 void tap_dance_tap_hold_finished(tap_dance_state_t *state, void *user_data) {

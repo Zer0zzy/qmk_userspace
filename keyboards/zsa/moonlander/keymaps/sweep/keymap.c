@@ -50,7 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-------RED KEY---------|                                                       |---RED KEY-------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
     KC_TRANSPARENT,         KC_TRANSPARENT,         KC_TRANSPARENT,         KC_BSPC,                LT(_NUM,KC_TAB),        KC_PRINT_SCREEN,                                                                KC_TRANSPARENT,         LT(_NAV,KC_SPACE),      MEH_T(KC_ENTER),        KC_TRANSPARENT,         KC_TRANSPARENT,         KC_TRANSPARENT,
 //|--THUMB 1--------------|---THUMB 2-------------|---THUMB 3-------------|                                                                                                                                                                                                       |---THUMB 3-------------|---------THUMB 2-------|-----THUMB 1-----------|
-    KC_TRANSPARENT,         KC_TRANSPARENT,         KC_TRANSPARENT,                                                                                                                                                                                                                 KC_TRANSPARENT,         KC_TRANSPARENT,         KC_TRANSPARENT
+    LT(0, KC_CAPS),         TD(MS_RIGHT_MIDDLE),    KC_MS_BTN1,                                                                                                                                                                                                                     KC_TRANSPARENT,         KC_TRANSPARENT,         KC_TRANSPARENT
   ),
     [_NUM] = LAYOUT_moonlander (
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
@@ -60,7 +60,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
     KC_NO,                  KC_NO,                  KC_NO,                  KC_NO,                  MX_URL_REGEX,           KC_TRANSPARENT,         KC_TRANSPARENT,                 KC_NO,                  KC_NO,                  KC_BSLS,                KC_4,                   KC_5,                   KC_6,                   KC_SCLN,
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|                                                       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
-    KC_NO,                  KC_ESC,                 KC_NO,                  KC_NO,                  KC_NO,                  KC_TRANSPARENT,                                                                 KC_NO,                  KC_NO,                  KC_1,                   KC_2,                   KC_3,                   KC_NO,
+    KC_NO,                  KC_ESC,                 KC_NO,                  KC_NO,                  KC_NO,                  KC_TRANSPARENT,                                                                 KC_NO,                  KC_NO,                  KC_1,                   KC_2,                   KC_3,                   KC_DOT,
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-------RED KEY---------|                                                       |---RED KEY-------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
     KC_TRANSPARENT,         KC_TRANSPARENT,         KC_TRANSPARENT,         KC_TRANSPARENT,         KC_TRANSPARENT,         KC_NO,                                                                          KC_TRANSPARENT,         KC_TRANSPARENT,         KC_0,                   KC_TRANSPARENT,         KC_TRANSPARENT,         KC_TRANSPARENT,
 //|--THUMB 1--------------|---THUMB 2-------------|---THUMB 3-------------|                                                                                                                                                                                                       |---THUMB 3-------------|---------THUMB 2-------|-----THUMB 1-----------|
@@ -231,7 +231,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case MX_SIGNATURE:
     if (record->event.pressed) {
-        SEND_STRING("3957845");
+        SEND_STRING("3123103");
     }
     break;
     case MX_URL_REGEX:
