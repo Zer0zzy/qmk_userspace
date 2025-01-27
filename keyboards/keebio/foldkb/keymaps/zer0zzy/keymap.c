@@ -395,6 +395,7 @@ tap_dance_action_t tap_dance_actions[] = {
     [SCLN_RALT] = ACTION_TAP_DANCE_FN_ADVANCED(on_scln_ralt, scln_ralt_finished, scln_ralt_reset),
 };
 
+//Pressing shift, then the auto shift key, causes the unshifted key to repeat. (ex. Shift+KC_LPRN causes KC_COMMA to be output.)
 bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
         case KC_DOT:
@@ -408,9 +409,6 @@ bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
 }
 
 void autoshift_press_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
-    if (!shifted && (get_mods() & MOD_BIT(KC_RSFT))) {
-        shifted = true;
-    }
     switch(keycode) {
         case KC_COMMA:
             register_code16((!shifted) ? KC_COMMA : KC_QUOTE);
@@ -426,7 +424,7 @@ void autoshift_press_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
             break;
         default:
             if (shifted) {
-                add_weak_mods(MOD_MASK_SHIFT);
+                add_weak_mods(MOD_BIT(KC_LSFT));
             }
             // & 0xFF gets the Tap key for Tap Holds, required when using Retro Shift
             // register_code16((IS_RETRO(keycode)) ? keycode & 0xFF : keycode);
@@ -435,9 +433,6 @@ void autoshift_press_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
 }
 
 void autoshift_release_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
-    if (!shifted && (get_mods() & MOD_BIT(KC_RSFT))) {
-        shifted = true;
-    }
     switch(keycode) {
         case KC_COMMA:
             unregister_code16((!shifted) ? KC_COMMA : KC_QUOTE);
