@@ -16,8 +16,7 @@ enum custom_keycodes {
     MX_URL_REGEX,
     MX_DPI_CHANGE,
     MX_PLOOPY_BOOT,
-    CLR_MODS,
-    CAPS_WORD_SHIFT
+    CLR_MODS
 };
 
 typedef struct {
@@ -46,7 +45,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-------RED KEY---------|                                                       |---RED KEY-------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
     KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_BSPC,                LT(_NUM,KC_TAB),        KC_PRINT_SCREEN,                                                                KC_TRNS,                LT(_NAV,KC_SPACE),      MEH_T(KC_ENTER),        KC_TRNS,                KC_TRNS,                KC_TRNS,       
 //|--THUMB 1--------------|---THUMB 2-------------|---THUMB 3-------------|                                                                                                                                                                                                       |---THUMB 3-------------|---------THUMB 2-------|-----THUMB 1-----------|
-    LT(0, KC_CAPS),         TD(MS_RIGHT_MIDDLE),    MS_BTN1,                                                                                                                                                                                                                     KC_TRNS,                KC_TRNS,                KC_TRANSPARENT
+    LT(0, KC_CAPS),         TD(MS_RIGHT_MIDDLE),    MS_BTN1,                                                                                                                                                                                                                        KC_TRNS,                KC_TRNS,                KC_TRNS
   ),
     [_NUM] = LAYOUT_moonlander (
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
@@ -60,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-------RED KEY---------|                                                       |---RED KEY-------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
     KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_NO,                                                                          KC_TRNS,                KC_TRNS,                KC_0,                   KC_TRNS,                KC_TRNS,                KC_TRNS,       
 //|--THUMB 1--------------|---THUMB 2-------------|---THUMB 3-------------|                                                                                                                                                                                                       |---THUMB 3-------------|---------THUMB 2-------|-----THUMB 1-----------|
-    KC_TRNS,                KC_TRNS,                KC_TRNS,                                                                                                                                                                                                                        KC_TRNS,                KC_TRNS,                KC_TRANSPARENT
+    KC_TRNS,                KC_TRNS,                KC_TRNS,                                                                                                                                                                                                                        KC_TRNS,                KC_TRNS,                KC_TRNS
   ),
     [_NAV] = LAYOUT_moonlander(
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
@@ -74,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-------RED KEY---------|                                                       |---RED KEY-------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
     KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_NO,                                                                          KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,       
 //|--THUMB 1--------------|---THUMB 2-------------|---THUMB 3-------------|                                                                                                                                                                                                       |---THUMB 3-------------|---------THUMB 2-------|-----THUMB 1-----------|
-    KC_TRNS,                KC_TRNS,                KC_NO,                                                                                                                                                                                                                          KC_TRNS,                KC_TRNS,                KC_TRANSPARENT
+    KC_TRNS,                KC_TRNS,                KC_NO,                                                                                                                                                                                                                          KC_TRNS,                KC_TRNS,                KC_TRNS
   ),
     [_FN] = LAYOUT_moonlander(
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
@@ -88,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-------RED KEY---------|                                                       |---RED KEY-------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
     KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_NO,                                                                          KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,       
 //|--THUMB 1--------------|---THUMB 2-------------|---THUMB 3-------------|                                                                                                                                                                                                       |---THUMB 3-------------|---------THUMB 2-------|-----THUMB 1-----------|
-    KC_TRNS,                KC_TRNS,                KC_NO,                                                                                                                                                                                                                          KC_TRNS,                KC_TRNS,                KC_TRANSPARENT
+    KC_TRNS,                KC_TRNS,                KC_NO,                                                                                                                                                                                                                          KC_TRNS,                KC_TRNS,                KC_TRNS
   ),
 
     [_MEDIA] = LAYOUT_moonlander(
@@ -103,7 +102,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-------RED KEY---------|                                                       |---RED KEY-------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
     KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,                TD(POWER),                                                                      KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_TRNS,       
 //|--THUMB 1--------------|---THUMB 2-------------|---THUMB 3-------------|                                                                                                                                                                                                       |---THUMB 3-------------|---------THUMB 2-------|-----THUMB 1-----------|
-    KC_TRNS,                KC_TRNS,                KC_NO,                                                                                                                                                                                                                          KC_TRNS,                KC_TRNS,                KC_TRANSPARENT
+    KC_TRNS,                KC_TRNS,                KC_NO,                                                                                                                                                                                                                          KC_TRNS,                KC_TRNS,                KC_TRNS
   ),
 };
 const uint16_t PROGMEM combo0[] = {LSFT_T(KC_F), LSFT_T(KC_J), COMBO_END};
@@ -264,52 +263,53 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
 
-        case CAPS_WORD_SHIFT:
-            if (record->event.pressed) {
+        case LT(0, KC_CAPS):
+            if (!record->tap.count && record->event.pressed) {
                 if (caps_lock_active) {
-                    register_code(KC_LSFT);
+                    SEND_STRING(SS_DOWN(X_LSFT));
                 } else {
-                    tap_code(KC_CAPS);
-                    register_code(KC_LSFT);
+                    SEND_STRING(SS_TAP(X_CAPS) SS_DOWN(X_LSFT));
                 }
-            } else {
-                unregister_code(KC_LSFT);
+            } else if (!record->event.pressed) {
+                SEND_STRING(SS_UP(X_LSFT));
             }
-            return false;
+            break;
 
         case KC_BSPC:
-
+            // Initialize a boolean variable that keeps track
+            // of the delete key status: registered or not?
+            static bool delkey_registered;
             if (record->event.pressed) {
-
-                if (get_mods() & MOD_MASK_SHIFT) {
-
+                // Detect the activation of either shift keys
+                if (mod_state & MOD_MASK_SHIFT) {
+                    // First temporarily canceling both shifts so that
+                    // shift isn't applied to the KC_DEL keycode
                     del_mods(MOD_MASK_SHIFT);
-
                     register_code(KC_DEL);
-
-                    set_mods(get_mods());
-
+                    // Update the boolean variable to reflect the status of KC_DEL
                     delkey_registered = true;
-
+                    // Reapplying modifier state so that the held shift key(s)
+                    // still work even after having tapped the Backspace/Delete key.
+                    set_mods(mod_state);
                     return false;
                 }
-
-            } else {
-
+            } else { // on release of KC_BSPC
+                // In case KC_DEL is still being sent even after the release of KC_BSPC
                 if (delkey_registered) {
                     unregister_code(KC_DEL);
                     delkey_registered = false;
                     return false;
                 }
             }
-
-            break;
+            // Let QMK process the KC_BSPC keycode as usual outside of shift
+            return true;
     }
-
     return true;
 }
 
-void leader_start_user(void) {}
+void leader_start_user(void) {
+    // Do something when the leader key is pressed
+}
 
 void leader_end_user(void) {
 
