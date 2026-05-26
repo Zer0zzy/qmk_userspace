@@ -264,13 +264,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
         case LT(0, KC_CAPS):
             if (!record->tap.count && record->event.pressed) {
-                if (caps_lock_active) {
-                    SEND_STRING(SS_DOWN(X_LSFT));
+                if (!caps_lock_active) {
+                    tap_code(KC_CAPS);
+                    register_code(KC_LSFT);
                 } else {
-                    SEND_STRING(SS_TAP(X_CAPS) SS_DOWN(X_LSFT));
+                    register_code(KC_LSFT);
                 }
             } else if (!record->event.pressed) {
-                SEND_STRING(SS_UP(X_LSFT));
+                unregister_code(KC_LSFT);
             }
             break;
 
