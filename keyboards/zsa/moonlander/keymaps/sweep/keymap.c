@@ -224,9 +224,8 @@ bool led_update_user(led_t led_state) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-
-    static bool delkey_registered;
-
+    uint8_t mod_state;
+    mod_state = get_mods();
     switch (keycode) {
 
         case MX_SIGNATURE:
@@ -331,7 +330,7 @@ void leader_end_user(void) {
 
     } else if (leader_sequence_two_keys(KC_W, KC_O)) {
         // Leader, (w)indows, (o)mnibar => CTL+GUI+ALT+Space
-        tap_code16(LCG(LALT(KC_SPC)));
+        tap_code16(LCAG(KC_SPC));
 
     } else if (leader_sequence_two_keys(KC_P, KC_E)) {
         // Leader, (p)rint, (e)mail => email
@@ -489,6 +488,18 @@ tap_dance_action_t tap_dance_actions[] = {
     [MS_RIGHT_MIDDLE]   = ACTION_TAP_DANCE_FN_ADVANCED(on_ms_right_middle, ms_right_middle_finished, ms_right_middle_reset),
     [SCLN_RALT] = ACTION_TAP_DANCE_FN_ADVANCED(on_scln_ralt, scln_ralt_finished, scln_ralt_reset),
 };
+
+bool get_custom_auto_shifted_key(uint16_t keycode, keyrecord_t *record) {
+    switch(keycode) {
+        case KC_DOT:
+        case KC_COMMA:
+        case KC_LPRN:
+        case KC_RPRN:
+            return true;
+        default:
+            return false;
+    }
+}
 
 void autoshift_press_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
 
