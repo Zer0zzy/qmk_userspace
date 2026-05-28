@@ -1,19 +1,3 @@
-/* Copyright 2021 Danny Nguyen <danny@keeb.io>
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
 #include "encoder.h"
 #include QMK_KEYBOARD_H
 
@@ -51,8 +35,7 @@ tap_dance_action_t *action;
 enum tap_dance_codes {
   DANCE_0,
   DANCE_1,
-  DANCE_2,
-  SCLN_RALT,
+  SCLN_RALT
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -60,7 +43,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
         KC_MUTE,            KC_ESC,             _______,            _______,            _______,            _______,            _______,            _______,                                _______,            _______,            _______,            _______,            _______,            _______,            xxxxxx,             _______,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
-        KC_HOME,                                _______,            TD(DANCE_2),        KC_W,               KC_E,               KC_R,               KC_T,                                   KC_Y,               KC_U,               KC_I,               KC_O,               KC_P,               _______,            _______,            _______,
+        KC_HOME,                                _______,            KC_Q,        KC_W,               KC_E,               KC_R,               KC_T,                                   KC_Y,               KC_U,               KC_I,               KC_O,               KC_P,               _______,            _______,            _______,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
         KC_END,                                 _______,            LALT_T(KC_A),       LGUI_T(KC_S),       LCTL_T(KC_D),       LSFT_T(KC_F),       KC_G,                                   KC_H,               LSFT_T(KC_J),       RCTL_T(KC_K),       RGUI_T(KC_L),       TD(SCLN_RALT),      _______,            _______,
     // |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|                   |-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|-------------------|
@@ -186,7 +169,7 @@ layer_state_t layer_state_set_user(layer_state_t state) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   uint8_t mod_state;
-  mod_state = get_mods();
+  mod_state = get_mods() | get_weak_mods();
   switch (keycode) {
     case CLR_MODS:
     if (record->event.pressed) {
@@ -197,6 +180,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
         SEND_STRING("(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)\\r");
     }
+    break;
     case TOG_GAME:
     if (record->event.pressed) {
         default_layer_set((layer_state_t)1 << _BASE2);
@@ -211,7 +195,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     break;
     case TD(DANCE_0):
     case TD(DANCE_1):
-    case TD(DANCE_2):
         action = &tap_dance_actions[TD_INDEX(keycode)];
         if (!record->event.pressed && action->state.count && !action->state.finished) {
             tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
@@ -272,9 +255,6 @@ void leader_end_user(void) {
     } else if (leader_sequence_two_keys(KC_W, KC_O)) {
         // Leader, (w)indows, (o)mnibar => CTL+Space
         tap_code16(LCG(LALT(KC_SPACE)));
-    } else if (leader_sequence_two_keys(KC_P, KC_E)) {
-        // Leader, (p)rint, (e)mail => email
-        SEND_STRING("andre.dessert@premworx.com");
     } else if (leader_sequence_three_keys(KC_U, KC_R, KC_L)) {
         // Leader, u, r, l => url
         SEND_STRING("(https?:\\/\\/)?(www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)\\r");
@@ -355,11 +335,6 @@ void scln_ralt_finished(tap_dance_state_t *state, void *user_data);
 void scln_ralt_reset(tap_dance_state_t *state, void *user_data);
 
 void on_scln_ralt(tap_dance_state_t *state, void *user_data) {
-    if(state->count == 3) {
-        tap_code16(KC_SCLN);
-        tap_code16(KC_SCLN);
-        tap_code16(KC_SCLN);
-    }
     if(state->count > 3) {
         tap_code16(KC_SCLN);
     }
@@ -368,22 +343,17 @@ void on_scln_ralt(tap_dance_state_t *state, void *user_data) {
 void scln_ralt_finished(tap_dance_state_t *state, void *user_data) {
     dance_state[1].step = dance_step(state);
     switch (dance_state[1].step) {
-        case SINGLE_TAP: register_code16(KC_SCLN); break;
-        case SINGLE_HOLD: register_code16(KC_COLN); break;
-        case DOUBLE_TAP: register_code16(KC_SCLN); register_code16(KC_SCLN); break;
+        case SINGLE_TAP: tap_code16(KC_SCLN); break;
+        case SINGLE_HOLD: tap_code16(KC_COLN); break;
+        case DOUBLE_TAP: tap_code16(KC_SCLN); tap_code16(KC_SCLN); break;
         case DOUBLE_HOLD: register_code16(KC_RIGHT_ALT); break;
-        case DOUBLE_SINGLE_TAP: tap_code16(KC_SCLN); register_code16(KC_SCLN);
+        case DOUBLE_SINGLE_TAP: tap_code16(KC_SCLN); tap_code16(KC_SCLN); break;
     }
 }
 
 void scln_ralt_reset(tap_dance_state_t *state, void *user_data) {
-    wait_ms(10);
     switch (dance_state[1].step) {
-        case SINGLE_TAP: unregister_code16(KC_SCLN); break;
-        case SINGLE_HOLD: unregister_code16(KC_COLN); break;
-        case DOUBLE_TAP: unregister_code16(KC_SCLN); break;
         case DOUBLE_HOLD: unregister_code16(KC_RIGHT_ALT); break;
-        case DOUBLE_SINGLE_TAP: unregister_code16(KC_SCLN); break;
     }
     dance_state[1].step = 0;
 }
@@ -391,7 +361,6 @@ void scln_ralt_reset(tap_dance_state_t *state, void *user_data) {
 tap_dance_action_t tap_dance_actions[] = {
     [DANCE_0]   = ACTION_TAP_DANCE_TAP_HOLD(KC_MEDIA_NEXT_TRACK, KC_MEDIA_FAST_FORWARD),
     [DANCE_1]   = ACTION_TAP_DANCE_TAP_HOLD(KC_MEDIA_PREV_TRACK, KC_MEDIA_REWIND),
-    [DANCE_2]   = ACTION_TAP_DANCE_TAP_HOLD(KC_Q, KC_Q),
     [SCLN_RALT] = ACTION_TAP_DANCE_FN_ADVANCED(on_scln_ralt, scln_ralt_finished, scln_ralt_reset),
 };
 
@@ -435,10 +404,10 @@ void autoshift_press_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
 void autoshift_release_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
     switch(keycode) {
         case KC_COMMA:
-            unregister_code16((!shifted) ? KC_COMMA : KC_QUOTE);
+            unregister_code16((!shifted) ? KC_COMMA : KC_QUOT);
             break;
         case KC_DOT:
-            unregister_code16((!shifted) ? KC_DOT : KC_DOUBLE_QUOTE);
+            unregister_code16((!shifted) ? KC_DOT : KC_DQUO);
             break;
         case KC_LPRN:
             unregister_code16((!shifted) ? KC_LPRN : KC_LT);

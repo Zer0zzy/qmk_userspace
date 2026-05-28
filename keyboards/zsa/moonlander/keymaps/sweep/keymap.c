@@ -227,7 +227,7 @@ bool led_update_user(led_t led_state) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     uint8_t mod_state;
-    mod_state = get_mods();
+    mod_state = get_mods() | get_weak_mods();
     switch (keycode) {
 
         case MX_SIGNATURE:
@@ -453,7 +453,7 @@ void scln_ralt_finished(tap_dance_state_t *state, void *user_data) {
     dance_state[1].step = dance_step(state);
     switch (dance_state[1].step) {
         case SINGLE_TAP: tap_code16(KC_SCLN); break;
-        case SINGLE_HOLD: register_code16(KC_LSFT); tap_code16(KC_SCLN); break;
+        case SINGLE_HOLD: tap_code16(KC_COLN); break;
         case DOUBLE_TAP: tap_code16(KC_SCLN); tap_code16(KC_SCLN); break;
         case DOUBLE_HOLD: register_code16(KC_RIGHT_ALT); break;
         case DOUBLE_SINGLE_TAP: tap_code16(KC_SCLN); tap_code16(KC_SCLN); break;
@@ -462,7 +462,6 @@ void scln_ralt_finished(tap_dance_state_t *state, void *user_data) {
 
 void scln_ralt_reset(tap_dance_state_t *state, void *user_data) {
     switch (dance_state[1].step) {
-        case SINGLE_HOLD: unregister_code16(KC_LSFT); break;
         case DOUBLE_HOLD: unregister_code16(KC_RIGHT_ALT); break;
     }
     dance_state[1].step = 0;
