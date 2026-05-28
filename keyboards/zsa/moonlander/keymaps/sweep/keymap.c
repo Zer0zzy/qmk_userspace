@@ -1,6 +1,7 @@
 #include QMK_KEYBOARD_H
 
 #define LCG(kc) (QK_LCTL | QK_LGUI | (kc))
+#define X_SCROLL MT(MOD_LSFT, KC_CAPS)
 
 #define _BASE 0
 #define _NUM 1
@@ -16,8 +17,7 @@ enum custom_keycodes {
     MX_URL_REGEX,
     MX_DPI_CHANGE,
     MX_PLOOPY_BOOT,
-    CLR_MODS,
-    X_SCROLL
+    CLR_MODS
 };
 
 typedef struct {
@@ -30,7 +30,6 @@ enum tap_dance_codes {
   DANCE_0,
   DANCE_1,
   POWER,
-  MS_RIGHT_MIDDLE,
   SCLN_RALT
 };
 
@@ -41,13 +40,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
     KC_Q,                   KC_W,                   KC_E,                   KC_R,                   KC_T,                   KC_TRNS,                KC_TRNS,                        MX_DPI_CHANGE,          KC_TRNS,                KC_Y,                   KC_U,                   KC_I,                   KC_O,                   KC_P,
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
-    LALT_T(KC_A),           LGUI_T(KC_S),           LCTL_T(KC_D),           LSFT_T(KC_F),           KC_G,                   KC_TRNS,                KC_TRNS,                        MS_BTN1,                TD(MS_RIGHT_MIDDLE),    KC_H,                   LSFT_T(KC_J),           RCTL_T(KC_K),           RGUI_T(KC_L),           TD(SCLN_RALT),
+    LALT_T(KC_A),           LGUI_T(KC_S),           LCTL_T(KC_D),           LSFT_T(KC_F),           KC_G,                   KC_TRNS,                KC_TRNS,                        MS_BTN1,                MS_BTN2,                KC_H,                   LSFT_T(KC_J),           RCTL_T(KC_K),           RGUI_T(KC_L),           TD(SCLN_RALT),
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|                                                       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
-    KC_Z,                   KC_X,                   KC_C,                   KC_V,                   KC_B,                   KC_TRNS,                                                                        X_SCROLL,         KC_N,                   KC_M,                   KC_COMMA,               KC_DOT,                 KC_SLASH,
+    KC_Z,                   KC_X,                   KC_C,                   KC_V,                   KC_B,                   KC_TRNS,                                                                        X_SCROLL,               KC_N,                   KC_M,                   KC_COMMA,               KC_DOT,                 KC_SLASH,
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-------RED KEY---------|                                                       |---RED KEY-------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
     KC_TRNS,                KC_TRNS,                KC_TRNS,                KC_BSPC,                LT(_NUM,KC_TAB),        KC_PRINT_SCREEN,                                                                KC_TRNS,                LT(_NAV,KC_SPACE),      MEH_T(KC_ENTER),        KC_TRNS,                KC_TRNS,                KC_TRNS,       
 //|--THUMB 1--------------|---THUMB 2-------------|---THUMB 3-------------|                                                                                                                                                                                                       |---THUMB 3-------------|---------THUMB 2-------|-----THUMB 1-----------|
-    X_SCROLL,         TD(MS_RIGHT_MIDDLE),    MS_BTN1,                                                                                                                                                                                                                        KC_TRNS,                KC_TRNS,                KC_TRNS
+    X_SCROLL,               MS_BTN2,                MS_BTN1,                                                                                                                                                                                                                        KC_TRNS,                KC_TRNS,                KC_TRNS
   ),
     [_NUM] = LAYOUT_moonlander (
 //|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|       |-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|-----------------------|
@@ -265,17 +264,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             return false;
 
         case X_SCROLL:
-            if (!record->tap.count && record->event.pressed) {
-                if (!caps_lock_active) {
-                    tap_code(KC_CAPS);
-                    register_code(KC_LSFT);
-                } else {
-                    register_code(KC_LSFT);
+            if (record->event.pressed) {
+            
+                // Hold behavior
+                if (record->tap.count == 0) {
+                
+                    // Turn on caps lock if needed
+                    if (!host_keyboard_led_state().caps_lock) {
+                        tap_code(KC_CAPS);
+                    }
                 }
-            } else if (!record->event.pressed) {
-                unregister_code(KC_LSFT);
             }
-            break;
+        
+            return true;
 
         case KC_BSPC:
             // Initialize a boolean variable that keeps track
@@ -412,33 +413,6 @@ uint8_t dance_step(tap_dance_state_t *state) {
     return MORE_TAPS;
 }
 
-void on_ms_right_middle(tap_dance_state_t *state, void *user_data);
-void ms_right_middle_finished(tap_dance_state_t *state, void *user_data);
-void ms_right_middle_reset(tap_dance_state_t *state, void *user_data);
-
-void on_ms_right_middle(tap_dance_state_t *state, void *user_data) {
-    if(state->count > 3) {
-        tap_code16(MS_BTN2);
-    }
-}
-
-void ms_right_middle_finished(tap_dance_state_t *state, void *user_data) {
-    dance_state[0].step = dance_step(state);
-    switch (dance_state[0].step) {
-        case SINGLE_TAP: tap_code16(MS_BTN2); break;
-        case SINGLE_HOLD: register_code16(MS_BTN2); break;
-        case DOUBLE_TAP: tap_code16(MS_BTN3); break;
-        case DOUBLE_SINGLE_TAP: tap_code16(MS_BTN2); tap_code16(MS_BTN2); break;
-    }
-}
-
-void ms_right_middle_reset(tap_dance_state_t *state, void *user_data) {
-    switch (dance_state[0].step) {
-        case SINGLE_HOLD: unregister_code16(MS_BTN2); break;
-    }
-    dance_state[0].step = 0;
-}
-
 void on_scln_ralt(tap_dance_state_t *state, void *user_data);
 void scln_ralt_finished(tap_dance_state_t *state, void *user_data);
 void scln_ralt_reset(tap_dance_state_t *state, void *user_data);
@@ -471,7 +445,6 @@ tap_dance_action_t tap_dance_actions[] = {
     [DANCE_0] = ACTION_TAP_DANCE_TAP_HOLD(KC_MNXT, KC_MFFD),
     [DANCE_1] = ACTION_TAP_DANCE_TAP_HOLD(KC_MPRV, KC_MRWD),
     [POWER]   = ACTION_TAP_DANCE_TAP_HOLD(KC_WAKE, KC_SLEP),
-    [MS_RIGHT_MIDDLE]   = ACTION_TAP_DANCE_FN_ADVANCED(on_ms_right_middle, ms_right_middle_finished, ms_right_middle_reset),
     [SCLN_RALT] = ACTION_TAP_DANCE_FN_ADVANCED(on_scln_ralt, scln_ralt_finished, scln_ralt_reset),
 };
 
@@ -492,50 +465,50 @@ void autoshift_press_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
     switch(keycode) {
 
         case KC_COMM:
-            register_code16((!shifted) ? KC_COMM : KC_QUOT);
+            tap_code16((!shifted) ? KC_COMM : KC_QUOT);
             break;
 
         case KC_DOT:
-            register_code16((!shifted) ? KC_DOT : KC_DQUO);
+            tap_code16((!shifted) ? KC_DOT : KC_DQUO);
             break;
 
         case KC_LPRN:
-            register_code16((!shifted) ? KC_LPRN : KC_LT);
+            tap_code16((!shifted) ? KC_LPRN : KC_LT);
             break;
 
         case KC_RPRN:
-            register_code16((!shifted) ? KC_RPRN : KC_GT);
+            tap_code16((!shifted) ? KC_RPRN : KC_GT);
             break;
 
         default:
             if (shifted) {
                 add_weak_mods(MOD_BIT(KC_LSFT));
             }
-            register_code16(keycode);
+            tap_code16(keycode);
     }
 }
 
 void autoshift_release_user(uint16_t keycode, bool shifted, keyrecord_t *record) {
 
-    switch(keycode) {
+    // switch(keycode) {
 
-        case KC_COMM:
-            unregister_code16((!shifted) ? KC_COMM : KC_QUOT);
-            break;
+    //     case KC_COMM:
+    //         unregister_code16((!shifted) ? KC_COMM : KC_QUOT);
+    //         break;
 
-        case KC_DOT:
-            unregister_code16((!shifted) ? KC_DOT : KC_DQUO);
-            break;
+    //     case KC_DOT:
+    //         unregister_code16((!shifted) ? KC_DOT : KC_DQUO);
+    //         break;
 
-        case KC_LPRN:
-            unregister_code16((!shifted) ? KC_LPRN : KC_LT);
-            break;
+    //     case KC_LPRN:
+    //         unregister_code16((!shifted) ? KC_LPRN : KC_LT);
+    //         break;
 
-        case KC_RPRN:
-            unregister_code16((!shifted) ? KC_RPRN : KC_GT);
-            break;
+    //     case KC_RPRN:
+    //         unregister_code16((!shifted) ? KC_RPRN : KC_GT);
+    //         break;
 
-        default:
-            unregister_code16(keycode);
-    }
+    //     default:
+    //         unregister_code16(keycode);
+    // }
 }
